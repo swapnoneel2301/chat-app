@@ -174,10 +174,10 @@ const SingleChat = () => {
                       onClick={fetchAllMessages}
                     />
                     <UpdateGroupChatModal
-                      chat={selectedChat}
-                      //   fetchMessages={fetchMessages}
-                      //   fetchAgain={fetchAgain}
-                      //   setFetchAgain={setFetchAgain}
+                    // chat={selectedChat}
+                    //   fetchMessages={fetchMessages}
+                    //   fetchAgain={fetchAgain}
+                    //   setFetchAgain={setFetchAgain}
                     />
                   </Box>
                 </>

@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import { AddIcon } from "@chakra-ui/icons";
 import UserLoading from "./UserLoading";
@@ -8,12 +8,22 @@ import GroupChatModal from "./GroupChatModal";
 import { getSender } from "./config/commonFunctions";
 
 const MyChats = () => {
-  const { user, setUser, chats, setChats, selectedChat, setSelectedChat } =
-    ChatState();
+  const {
+    user,
+    setUser,
+    chats,
+    setChats,
+    selectedChat,
+    setSelectedChat,
+    fetchAgain,
+  } = ChatState();
+
+  const [loading, setLoading] = useState(false);
 
   const toast = useToast();
 
   const fetchChats = async () => {
+    setLoading(true);
     try {
       const config = {
         headers: {
@@ -22,7 +32,9 @@ const MyChats = () => {
       };
 
       const { data } = await axios.get("/api/chat", config);
+      console.log(data);
       setChats(data);
+      setLoading(false);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -32,12 +44,16 @@ const MyChats = () => {
         isClosable: true,
         position: "bottom-left",
       });
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchChats();
   }, []);
+  useEffect(() => {
+    fetchChats();
+  }, [fetchAgain]);
   // useEffect(() => {
   //   setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
   //   fetchChats();
